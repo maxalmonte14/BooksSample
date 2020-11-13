@@ -14,7 +14,7 @@ Run `dotnet run` in the root of the project, this should start the server for th
 
 It can also be ran by selecting the BooksSample profile in Visual Studio.
 
-Then go to the `ClientApp` folder and run `npm run start` this should start the client app at http://localhost:5000.
+Then go to the `ClientApp` folder and run `npm run start` this should start the client app at http://localhost:3000.
 
 ## Endpoints
 
