@@ -12,6 +12,8 @@ Before running the app it's necessary to create the database tables and populate
 
 Run `dotnet run` in the root of the project, this should start the server for the backend at http://localhost:5000.
 
+It can also be ran by selecting the BooksSample profile in Visual Studio.
+
 Then go to the `ClientApp` folder and run `npm run start` this should start the client app at http://localhost:5000.
 
 ## Endpoints
