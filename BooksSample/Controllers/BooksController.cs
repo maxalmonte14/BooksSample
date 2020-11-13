@@ -26,7 +26,7 @@ namespace BooksSample.Controllers
             _authorRepository = authorRepository;
         }
 
-        [HttpGet("/[controller]")]
+        [HttpGet("/api/[controller]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IList<BookApiModel>>> GetAll()
         {
@@ -40,7 +40,7 @@ namespace BooksSample.Controllers
             return Ok(models);
         }
 
-        [HttpGet("/[controller]/{id}")]
+        [HttpGet("/api/[controller]/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Book>> Get(Guid id)
@@ -55,7 +55,7 @@ namespace BooksSample.Controllers
             return Ok(BookToApiModel(book));
         }
 
-        [HttpPost("/[controller]")]
+        [HttpPost("/api/[controller]")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Book>> Create([FromBody] Book book)
@@ -70,7 +70,7 @@ namespace BooksSample.Controllers
             return CreatedAtAction(nameof(Create), BookToApiModel(newBook));
         }
 
-        [HttpDelete("/[controller]/{id}")]
+        [HttpDelete("/api/[controller]/{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Delete(Guid id)
@@ -85,7 +85,7 @@ namespace BooksSample.Controllers
             return NoContent();
         }
 
-        [HttpPut("/[controller]/{id}")]
+        [HttpPut("/api/[controller]/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

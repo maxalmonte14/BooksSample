@@ -1,6 +1,6 @@
 export class HttpClient {
   constructor() {
-    this.ROOT_URL = "http://localhost:5000";
+    this.ROOT_URL = "http://localhost:5000/api";
   }
 
   getBooks() {
