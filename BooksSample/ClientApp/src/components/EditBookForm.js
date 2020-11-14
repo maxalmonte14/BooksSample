@@ -1,7 +1,7 @@
 import React from 'react';
-import { BookForm } from './BookForm';
+import BookForm from './BookForm';
 
-export function EditBookForm(props) {
+export default function EditBookForm(props) {
   return (
     <BookForm initialState={{
         bookId: props.location.state.id,

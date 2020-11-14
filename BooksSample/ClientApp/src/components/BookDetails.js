@@ -1,37 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import HttpClient from '../services/HttpClient';
 
-export class BookDetails extends React.Component {
-  constructor(props) {
-    super(props);
+export default function BookDetails(props) {
+  const [author, updateAuthor] = useState({});
 
-    this.state = { author: null };
-  }
+  useEffect(() => {
+    HttpClient.getAuthor(props.location.state.authorId)
+    .then(response => {
+      if(response.status != 200) {
+        throw new Error();
+      }
 
-  componentDidMount() {
-    HttpClient.getAuthor(this.props.location.state.authorId)
-              .then(response => {
-                if(response.status != 200) {
-                  throw new Error();
-                }
+      return response.json();
+    })
+    .then(json => updateAuthor(json))
+    .catch(() => alert("The author for this book does not exist"));
+  }, []);
 
-                return response.json();
-              })
-              .then(json => this.setState({ author: json }))
-              .catch(Error => alert("The author for this book does not exist"));
-  }
+  return (
+    <div>
+      <h2>Title: {props.location.state.title}</h2>
 
-  render() {
-    return (
-      <div>
-        <h2>Title: {this.props.location.state.title}</h2>
+      <p><b>Year:</b> {props.location.state.year}</p>
+      <p><b># of pages:</b> {props.location.state.pagesCount}</p>
 
-        <p><b>Year:</b> {this.props.location.state.year}</p>
-        <p><b># of pages:</b> {this.props.location.state.pagesCount}</p>
-
-        <h3>Author information</h3>
-        <p><b>Full name:</b> { this.state.author != null ? this.state.author.fullName : null}</p>
-      </div>
-    );
-  }
+      <h3>Author information</h3>
+      <p><b>Full name:</b> { author != null ? author.fullName : null}</p>
+    </div>
+  );
 }

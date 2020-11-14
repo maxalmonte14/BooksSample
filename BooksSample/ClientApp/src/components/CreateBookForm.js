@@ -1,7 +1,7 @@
 import React from 'react';
-import { BookForm } from './BookForm';
+import BookForm from './BookForm';
 
-export function CreateBookForm() {
+export default function CreateBookForm() {
   return (
     <BookForm initialState={{
         selectedAuthorId: '',

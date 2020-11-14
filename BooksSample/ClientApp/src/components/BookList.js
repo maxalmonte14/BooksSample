@@ -1,49 +1,41 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import BookCard from './BookCard';
-import { SearchBox } from './SearchBox';
+import SearchBox from './SearchBox';
 import HttpClient from '../services/HttpClient';
 
-export class BookList extends React.Component {
-	constructor(props) {
-		super(props);
+export default function BookList() {
+	const [books, updateBooks] = useState([]);
+	const [searchResults, updatesearchResults] = useState([]);
 
-		this.state = { books: [], searchResults: [] };
-		this.onBookDeletedHandler = this.onBookDeletedHandler.bind(this);
-		this.onBookDeletedFailureHandler = this.onBookDeletedFailureHandler.bind(this);
+	useEffect(() => {
+		HttpClient.getBooks().then(json => updateBooks(json));
+	}, []);
+
+	function onBookDeletedHandler(id) {
+		updateBooks(books.filter(book => book.id != id));
 	}
 
-	componentDidMount() {
-		HttpClient.getBooks().then(json => this.setState({ books: json }));
+	function onEnterPressedHandler(id) {
+		updatesearchResults(books.filter(book => book.id == id));
 	}
 
-	onBookDeletedHandler(id) {
-		this.setState({ books: this.state.books.filter(book => book.id != id) });
-	}
-
-	onEnterPressedHandler(id) {
-		this.setState({searchResults: this.state.books.filter(book => book.id == id)});
-	}
-
-	onBookDeletedFailureHandler(data) {
+	function onBookDeletedFailureHandler(data) {
 		alert(data);
 	}
 
-	render() {
-		const books = (this.state.searchResults.length > 0)
-									? this.state.searchResults
-									: this.state.books;
+	const bookCollection = (searchResults.length > 0) ? searchResults : books;
+	const booksToShow = bookCollection.map(book => {
+		return <BookCard
+						key={book.id}
+						book={book}
+						onDelete={(id) => onBookDeletedHandler(id)}
+						onDeleteFailure={(data => onBookDeletedFailureHandler(data))}/>
+	});
 
-		return (
-			<div>
-				<SearchBox onEnterPressed={(id) => this.onEnterPressedHandler(id)}/>
-				{books.map(book => {
-						return <BookCard
-										key={book.id}
-										book={book}
-										onDelete={(id) => this.onBookDeletedHandler(id)}
-										onDeleteFailure={(data => this.onBookDeletedFailureHandler(data))}/>
-				})}
-			</div>
-		);
-	}
+	return (
+		<div>
+			<SearchBox onEnterPressed={(id) => onEnterPressedHandler(id)}/>
+			{booksToShow}
+		</div>
+	);
 }
