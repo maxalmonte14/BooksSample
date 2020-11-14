@@ -104,6 +104,8 @@ namespace BooksSample.Controllers
             }
 
             bookFromDb.Name = book.Name;
+            bookFromDb.Year = book.Year;
+            bookFromDb.PagesCount = book.PagesCount;
             bookFromDb.AuthorId = book.AuthorId;
 
             var updatedBook = await _bookRepository.UpdateAsync(bookFromDb);
