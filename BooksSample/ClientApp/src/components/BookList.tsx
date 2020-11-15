@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import BookCard from './BookCard';
 import SearchBox from './SearchBox';
 import HttpClient from '../services/HttpClient';
+import { Book } from '../types';
 
 export default function BookList() {
 	const [books, updateBooks] = useState([]);
@@ -11,30 +12,30 @@ export default function BookList() {
 		HttpClient.getBooks().then(json => updateBooks(json));
 	}, []);
 
-	function onBookDeletedHandler(id) {
-		updateBooks(books.filter(book => book.id != id));
+	const onBookDeletedHandler = (id: string) => {
+		updateBooks(books.filter((book: Book) => book.id !== id));
 	}
 
-	function onEnterPressedHandler(id) {
-		updatesearchResults(books.filter(book => book.id == id));
+	const onEnterPressedHandler = (id: string) => {
+		updatesearchResults(books.filter((book: Book) => book.id === id));
 	}
 
-	function onBookDeletedFailureHandler(data) {
+	const onBookDeletedFailureHandler = (data: string) => {
 		alert(data);
 	}
 
 	const bookCollection = (searchResults.length > 0) ? searchResults : books;
-	const booksToShow = bookCollection.map(book => {
+	const booksToShow = bookCollection.map((book: Book) => {
 		return <BookCard
 						key={book.id}
 						book={book}
-						onDelete={(id) => onBookDeletedHandler(id)}
-						onDeleteFailure={(data => onBookDeletedFailureHandler(data))}/>
+						onDelete={(id: string) => onBookDeletedHandler(id)}
+						onDeleteFailure={((data: string) => onBookDeletedFailureHandler(data))}/>
 	});
 
 	return (
 		<div>
-			<SearchBox onEnterPressed={(id) => onEnterPressedHandler(id)}/>
+			<SearchBox onEnterPressed={(id: string) => onEnterPressedHandler(id)}/>
 			{booksToShow}
 		</div>
 	);

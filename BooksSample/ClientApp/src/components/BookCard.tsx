@@ -1,16 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import HttpClient from '../services/HttpClient';
+import { Book } from '../types';
 
-export default function BookCard(props) {
-  function deleteBookClickHandler(id) {
+interface Props {
+  book: Book,
+  onDelete: (id: string) => void,
+  onDeleteFailure: (data: string) => void
+}
+
+export default function BookCard(props: Props) {
+  const deleteBookClickHandler = (id: string) => {
     HttpClient.deleteBook(id)
     .then(response => {
-      if(response.status == 204) {
+      if(response.status === 204) {
         props.onDelete(id);
-      } else if(response.status == 404) {
+      } else if(response.status === 404) {
         props.onDeleteFailure("The book you're trying to delete doest not exist.");
-      } else if(response.status == 500) {
+      } else if(response.status === 500) {
         props.onDeleteFailure("Sorry, there was a failure in the server, please try again.");
       }
     });

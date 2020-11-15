@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import HttpClient from '../services/HttpClient';
+import { Author, Book } from '../types';
 
-export default function BookDetails(props) {
-  const [author, updateAuthor] = useState({});
+interface Props {
+  location: { state: Book }
+}
+
+export default function BookDetails(props: Props) {
+  const [author, updateAuthor] = useState<Author>({} as Author);
 
   useEffect(() => {
     HttpClient.getAuthor(props.location.state.authorId)
     .then(response => {
-      if(response.status != 200) {
+      if(response.status !== 200) {
         throw new Error();
       }
 
@@ -15,7 +20,7 @@ export default function BookDetails(props) {
     })
     .then(json => updateAuthor(json))
     .catch(() => alert("The author for this book does not exist"));
-  }, []);
+  }, [props.location.state.authorId]);
 
   return (
     <div>
@@ -25,7 +30,7 @@ export default function BookDetails(props) {
       <p><b># of pages:</b> {props.location.state.pagesCount}</p>
 
       <h3>Author information</h3>
-      <p><b>Full name:</b> { author != null ? author.fullName : null}</p>
+      <p><b>Full name:</b> {author?.fullName}</p>
     </div>
   );
 }

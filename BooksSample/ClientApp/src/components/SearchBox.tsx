@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 
-export default function SearchBox(props) {
+interface Props {
+  onEnterPressed: (id: string) => void;
+}
+
+export default function SearchBox(props: Props) {
   const [searchValue, updateSearchValue] = useState('');
 
-  function onSearchBarChanged(value) {
+  const onSearchBarChanged = (value: string) => {
     updateSearchValue(value);
   }
 
-  function onSearchBarKeyPressed(keyName) {
-    if (keyName == 'Enter' && searchValue != null) {
+  const onSearchBarKeyPressed = (keyName: string) => {
+    if (keyName === 'Enter' && searchValue != null) {
       props.onEnterPressed(searchValue);
     }
   }
