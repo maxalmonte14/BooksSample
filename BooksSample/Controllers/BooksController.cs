@@ -58,14 +58,14 @@ namespace BooksSample.Controllers
         [HttpPost("/api/[controller]")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Book>> Create([FromBody] Book book)
+        public async Task<ActionResult<Book>> Create([FromBody] BookApiModel model)
         {
-            if (!_authorRepository.Exists(book.AuthorId))
+            if (!_authorRepository.Exists(model.AuthorId))
             {
                 return BadRequest();
             }
 
-            var newBook = await _bookRepository.AddAsync(book);
+            var newBook = await _bookRepository.AddAsync(ApiModelToBook(model));
 
             return CreatedAtAction(nameof(Create), BookToApiModel(newBook));
         }
@@ -89,7 +89,7 @@ namespace BooksSample.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> Update(Guid id, [FromBody] Book book)
+        public async Task<ActionResult> Update(Guid id, [FromBody] BookApiModel model)
         {
             var bookFromDb = await _bookRepository.FindByIdAsync(id);
 
@@ -103,10 +103,10 @@ namespace BooksSample.Controllers
                 return BadRequest();
             }
 
-            bookFromDb.Name = book.Name;
-            bookFromDb.Year = book.Year;
-            bookFromDb.PagesCount = book.PagesCount;
-            bookFromDb.AuthorId = book.AuthorId;
+            bookFromDb.Name = model.Title;
+            bookFromDb.Year = model.Year;
+            bookFromDb.PagesCount = model.PagesCount;
+            bookFromDb.AuthorId = model.AuthorId;
 
             var updatedBook = await _bookRepository.UpdateAsync(bookFromDb);
 
@@ -122,6 +122,18 @@ namespace BooksSample.Controllers
                 AuthorId = book.AuthorId,
                 Year = book.Year,
                 PagesCount = book.PagesCount,
+            };
+        }
+
+        private Book ApiModelToBook(BookApiModel model)
+        {
+            return new Book
+            {
+                Id = model.Id,
+                Name = model.Title,
+                AuthorId = model.AuthorId,
+                Year = model.Year,
+                PagesCount = model.PagesCount,
             };
         }
     }
