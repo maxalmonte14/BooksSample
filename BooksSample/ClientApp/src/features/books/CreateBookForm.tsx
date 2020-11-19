@@ -32,8 +32,7 @@ export default function CreateBookForm() {
   }
 
   const modelStateIsValid = (data: Book): boolean => {
-    return true;
-    // return [data.title, data.authorId, data.year, data.pagesCount].every(e => e != null);
+    return [data.title, data.authorId, data.year, data.pagesCount].every(e => e != null);
   }
 
   if (redirect) {
