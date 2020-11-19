@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import HttpClient from '../services/HttpClient';
-import { Author, Book } from '../types';
+import HttpClient from '../../services/HttpClient';
+import { Author, Book } from '../../types';
 
 interface Props {
   initialState: Partial<Book>,
@@ -49,21 +49,21 @@ return (
       <label>Title</label>
       <input
         className="form-control"
-        value={title}
+        defaultValue={title}
         onChange={(event) => onTitleChangeHandler(event.target.value)}/>
     </div>
     <div>
       <label>Year</label>
       <input
         className="form-control"
-        value={year}
+        defaultValue={year}
         onChange={(event) => onYearChangeHandler(event.target.value)}/>
     </div>
     <div>
       <label>Pages count</label>
       <input
         className="form-control"
-        value={pagesCount}
+        defaultValue={pagesCount}
         type="number"
         onChange={(event) => onPagesCountChangeHandler(parseInt(event.target.value))}/>
     </div>

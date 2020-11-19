@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router';
 import { Layout } from './components/Layout';
-import BookList from './components/BookList';
-import BookDetails from './components/BookDetails';
-import CreateBookForm from './components/CreateBookForm';
-import EditBookForm from './components/EditBookForm';
+import BookList from './features/books/BookList';
+import BookDetails from './features/books/BookDetails';
+import CreateBookForm from './features/books/CreateBookForm';
+import EditBookForm from './features/books/EditBookForm';
 
 import './custom.css'
 

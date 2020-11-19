@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import HttpClient from '../services/HttpClient';
-import { Author, Book } from '../types';
+import HttpClient from '../../services/HttpClient';
+import { Author, Book } from '../../types';
 
 interface Props {
   location: { state: Book }
